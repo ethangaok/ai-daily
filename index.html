@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Daily - AI新闻日历</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #161616;
+            --bg-hover: #1c1c1c;
+            --text-primary: #ffffff;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666666;
+            --border: #2a2a2a;
+            --accent: #ffffff;
+            --accent-soft: rgba(255, 255, 255, 0.1);
+            --has-news: #22c55e;
+            --today: #3b82f6;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            position: sticky;
+            top: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 24px 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--bg-primary);
+        }
+
+        .logo-text {
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-color: var(--accent);
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--bg-primary);
+            border-color: var(--accent);
+        }
+
+        /* Main Content */
+        .main {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 32px;
+        }
+
+        /* Calendar Section */
+        .calendar-section {
+            margin-bottom: 48px;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .calendar-title {
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .calendar-nav {
+            display: flex;
+            gap: 8px;
+        }
+
+        .calendar-nav-btn {
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-secondary);
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .calendar-nav-btn:hover {
+            background: var(--bg-hover);
+            color: var(--text-primary);
+        }
+
+        /* Calendar Grid */
+        .calendar {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 24px;
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .weekday {
+            text-align: center;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 8px;
+        }
+
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .calendar-day {
+            aspect-ratio: 1;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            background: var(--bg-secondary);
+            text-decoration: none;
+            color: var(--text-secondary);
+        }
+
+        .calendar-day:hover {
+            background: var(--bg-hover);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .calendar-day.empty {
+            border: none;
+            background: transparent;
+            cursor: default;
+        }
+
+        .calendar-day.today {
+            border-color: var(--today);
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .calendar-day.today .day-number {
+            color: var(--today);
+            font-weight: 700;
+        }
+
+        .calendar-day.has-news {
+            border-color: var(--has-news);
+        }
+
+        .calendar-day.has-news .day-number {
+            color: var(--has-news);
+        }
+
+        .calendar-day.has-news::after {
+            content: '';
+            position: absolute;
+            bottom: 6px;
+            width: 4px;
+            height: 4px;
+            background: var(--has-news);
+            border-radius: 50%;
+        }
+
+        .day-number {
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .day-count {
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* Stats Section */
+        .stats-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 48px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 4px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Recent Days List */
+        .recent-section {
+            margin-bottom: 48px;
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 20px;
+            background: var(--accent);
+            border-radius: 2px;
+        }
+
+        .recent-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .recent-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+        }
+
+        .recent-item:hover {
+            background: var(--bg-hover);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .recent-date {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .recent-date-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--accent-soft);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .recent-date-text {
+            font-weight: 500;
+        }
+
+        .recent-count {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Footer */
+        .footer {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 32px;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .footer-text {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                padding: 20px 24px;
+            }
+
+            .main {
+                padding: 24px;
+            }
+
+            .calendar {
+                padding: 16px;
+            }
+
+            .day-number {
+                font-size: 14px;
+            }
+
+            .calendar-day.has-news::after {
+                bottom: 4px;
+            }
+        }
+
+        /* Loading State */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 48px;
+            color: var(--text-muted);
+        }
+
+        .spinner {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 12px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">AI</div>
+                <div class="logo-text">Daily</div>
+            </a>
+            <div class="header-actions">
+                <a href="daily.html" class="btn btn-primary">今日新闻</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="main">
+        <!-- Stats -->
+        <div class="stats-section">
+            <div class="stat-card">
+                <div class="stat-value" id="total-days">-</div>
+                <div class="stat-label">累计天数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="total-news">-</div>
+                <div class="stat-label">新闻总数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="today-news">-</div>
+                <div class="stat-label">今日新闻</div>
+            </div>
+        </div>
+
+        <!-- Calendar -->
+        <div class="calendar-section">
+            <div class="calendar-header">
+                <h2 class="calendar-title" id="calendar-month">2026年3月</h2>
+                <div class="calendar-nav">
+                    <button class="calendar-nav-btn" onclick="changeMonth(-1)">‹</button>
+                    <button class="calendar-nav-btn" onclick="changeMonth(1)">›</button>
+                </div>
+            </div>
+            <div class="calendar">
+                <div class="calendar-weekdays">
+                    <div class="weekday">日</div>
+                    <div class="weekday">一</div>
+                    <div class="weekday">二</div>
+                    <div class="weekday">三</div>
+                    <div class="weekday">四</div>
+                    <div class="weekday">五</div>
+                    <div class="weekday">六</div>
+                </div>
+                <div class="calendar-days" id="calendar-days">
+                    <!-- 由JavaScript生成 -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Days -->
+        <div class="recent-section">
+            <h2 class="section-title">最近更新</h2>
+            <div class="recent-list" id="recent-list">
+                <!-- 由JavaScript生成 -->
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer">
+        <p class="footer-text">AI Daily · 每日AI新闻摘要 · 自动更新</p>
+    </footer>
+
+    <script>
+        // 当前显示的月份
+        let currentDate = new Date();
+        let availableDates = [];
+
+        // 获取所有可用日期
+        async function loadAvailableDates() {
+            try {
+                const response = await fetch('data/index.json');
+                if (response.ok) {
+                    const data = await response.json();
+                    availableDates = data.dates || [];
+                    updateStats(data);
+                }
+            } catch (e) {
+                console.log('No index file found');
+            }
+            renderCalendar();
+            renderRecentList();
+        }
+
+        // 更新统计数据
+        function updateStats(data) {
+            document.getElementById('total-days').textContent = data.totalDays || 0;
+            document.getElementById('total-news').textContent = data.totalNews || 0;
+            document.getElementById('today-news').textContent = data.todayNews || 0;
+        }
+
+        // 渲染日历
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+            const today = new Date();
+
+            document.getElementById('calendar-month').textContent =
+                `${year}年${month + 1}月`;
+
+            const firstDay = new Date(year, month, 1);
+            const lastDay = new Date(year, month + 1, 0);
+            const daysInMonth = lastDay.getDate();
+            const startingDay = firstDay.getDay();
+
+            const calendarDays = document.getElementById('calendar-days');
+            calendarDays.innerHTML = '';
+
+            // 空白格子
+            for (let i = 0; i < startingDay; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.className = 'calendar-day empty';
+                calendarDays.appendChild(emptyDay);
+            }
+
+            // 日期格子
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+                const dayElement = document.createElement('a');
+                dayElement.className = 'calendar-day';
+                dayElement.href = `daily.html?date=${dateStr}`;
+
+                // 检查是否是今天
+                if (year === today.getFullYear() &&
+                    month === today.getMonth() &&
+                    day === today.getDate()) {
+                    dayElement.classList.add('today');
+                }
+
+                // 检查是否有新闻
+                const dateData = availableDates.find(d => d.date === dateStr);
+                if (dateData) {
+                    dayElement.classList.add('has-news');
+                }
+
+                dayElement.innerHTML = `
+                    <span class="day-number">${day}</span>
+                    ${dateData ? `<span class="day-count">${dateData.count}条</span>` : ''}
+                `;
+
+                calendarDays.appendChild(dayElement);
+            }
+        }
+
+        // 切换月份
+        function changeMonth(delta) {
+            currentDate.setMonth(currentDate.getMonth() + delta);
+            renderCalendar();
+        }
+
+        // 渲染最近列表
+        function renderRecentList() {
+            const recentList = document.getElementById('recent-list');
+            recentList.innerHTML = '';
+
+            const sortedDates = [...availableDates]
+                .sort((a, b) => b.date.localeCompare(a.date))
+                .slice(0, 7);
+
+            sortedDates.forEach(item => {
+                const date = new Date(item.date);
+                const month = date.getMonth() + 1;
+                const day = date.getDate();
+
+                const recentItem = document.createElement('a');
+                recentItem.className = 'recent-item';
+                recentItem.href = `daily.html?date=${item.date}`;
+                recentItem.innerHTML = `
+                    <div class="recent-date">
+                        <div class="recent-date-icon">${month}/${day}</div>
+                        <div class="recent-date-text">${item.date}</div>
+                    </div>
+                    <div class="recent-count">${item.count} 条新闻</div>
+                `;
+                recentList.appendChild(recentItem);
+            });
+
+            if (sortedDates.length === 0) {
+                recentList.innerHTML = '<div class="loading">暂无数据</div>';
+            }
+        }
+
+        // 初始化
+        loadAvailableDates();
+    </script>
+</body>
+</html>

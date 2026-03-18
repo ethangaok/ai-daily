@@ -1,0 +1,104 @@
+{
+  "date": "2026-03-18",
+  "generated_at": "2026-03-18T12:00:00",
+  "total": 10,
+  "categories": {
+    "enterprise": 3,
+    "product": 3,
+    "tool": 1,
+    "research": 2,
+    "other": 1
+  },
+  "news": [
+    {
+      "id": "2026-03-18-0",
+      "title": "Mistral 推出 Forge 平台，进军企业级"自建AI"市场",
+      "summary": "法国AI公司 Mistral 在 Nvidia GTC 大会上发布 Forge 平台，允许企业构建定制化AI解决方案。该平台直接对标 OpenAI 和 Anthropic 的企业服务，强调数据隐私和模型可定制性。",
+      "url": "https://techcrunch.com/2026/03/17/mistral-forge-nvidia-gtc-build-your-own-ai-enterprise/",
+      "source": "TechCrunch",
+      "category": "enterprise",
+      "published": "2026-03-17T10:00:00Z"
+    },
+    {
+      "id": "2026-03-18-1",
+      "title": "OpenAI 与 AWS 达成政府合作协议",
+      "summary": "OpenAI 扩大政府业务版图，reportedly 与 AWS 达成合作协议，为政府机构提供AI服务。这标志着AI巨头正加速布局公共部门市场。",
+      "url": "https://techcrunch.com/2026/03/17/openai-expands-government-footprint-with-aws-deal/",
+      "source": "TechCrunch",
+      "category": "enterprise",
+      "published": "2026-03-17T09:30:00Z"
+    },
+    {
+      "id": "2026-03-18-2",
+      "title": "五角大楼 reportedly 开发 Anthropic 替代方案",
+      "summary": "美国国防部正在开发替代 Anthropic Claude 的AI解决方案，以减少对单一供应商的依赖，增强国家安全层面的技术自主性。",
+      "url": "https://techcrunch.com/2026/03/17/the-pentagon-is-developing-alternatives-to-anthropic-report-says/",
+      "source": "TechCrunch",
+      "category": "enterprise",
+      "published": "2026-03-17T08:00:00Z"
+    },
+    {
+      "id": "2026-03-18-3",
+      "title": "Google Personal Intelligence 功能向美国所有用户开放",
+      "summary": "Google 宣布其 Personal Intelligence 功能正式向所有美国用户推出，该功能能够基于用户的 Gmail、日历等数据提供个性化AI助手服务。",
+      "url": "https://techcrunch.com/2026/03/17/googles-personal-intelligence-feature-is-expanding-to-all-us-users/",
+      "source": "TechCrunch",
+      "category": "product",
+      "published": "2026-03-17T14:00:00Z"
+    },
+    {
+      "id": "2026-03-18-4",
+      "title": "Gamma 推出AI图像生成工具，挑战 Canva 和 Adobe",
+      "summary": "演示文稿工具 Gamma 新增AI图像生成功能，用户可直接在平台内生成定制图像，无需切换至其他设计工具，直接对标 Canva 和 Adobe Express。",
+      "url": "https://techcrunch.com/2026/03/17/gamma-adds-ai-image-generation-tools-in-bid-to-take-on-canva-and-adobe/",
+      "source": "TechCrunch",
+      "category": "product",
+      "published": "2026-03-17T11:00:00Z"
+    },
+    {
+      "id": "2026-03-18-5",
+      "title": "World 推出验证AI购物代理背后真人的工具",
+      "summary": "World（原 Worldcoin）发布新工具，用于验证AI购物代理背后是否为真实人类，旨在解决AI代理在电商领域可能带来的身份验证问题。",
+      "url": "https://techcrunch.com/2026/03/17/world-launches-tool-to-verify-humans-behind-ai-shopping-agents/",
+      "source": "TechCrunch",
+      "category": "product",
+      "published": "2026-03-17T13:00:00Z"
+    },
+    {
+      "id": "2026-03-18-6",
+      "title": "Garry Tan 的 Claude Code 配置引发热议",
+      "summary": "Y Combinator CEO Garry Tan 分享的 Claude Code 开发环境配置在开发者社区引发广泛讨论，有人称赞其高效，也有人质疑其适用性。",
+      "url": "https://techcrunch.com/2026/03/17/why-garry-tans-claude-code-setup-has-gotten-so-much-love-and-hate/",
+      "source": "TechCrunch",
+      "category": "tool",
+      "published": "2026-03-17T15:00:00Z"
+    },
+    {
+      "id": "2026-03-18-7",
+      "title": "Niv-AI 走出隐身模式，专注提升GPU性能",
+      "summary": "初创公司 Niv-AI 正式走出隐身模式，专注于从现有GPU中榨取更多性能，其技术可能显著降低AI训练和推理的计算成本。",
+      "url": "https://techcrunch.com/2026/03/17/niv-ai-exits-stealth-to-wring-more-power-performance-out-of-gpus/",
+      "source": "TechCrunch",
+      "category": "research",
+      "published": "2026-03-17T16:00:00Z"
+    },
+    {
+      "id": "2026-03-18-8",
+      "title": "AI "男孩俱乐部"可能加剧女性财富差距",
+      "summary": "Affectiva 联合创始人 Rana el Kaliouby 警告，AI行业男性主导的现状可能进一步扩大性别财富差距，呼吁更多女性参与AI创业和投资。",
+      "url": "https://techcrunch.com/2026/03/17/ais-boys-club-could-widen-the-wealth-gap-for-women-says-rana-el-kaliouby/",
+      "source": "TechCrunch",
+      "category": "research",
+      "published": "2026-03-17T12:00:00Z"
+    },
+    {
+      "id": "2026-03-18-9",
+      "title": "BuzzFeed 推出AI应用寻求新收入来源",
+      "summary": "BuzzFeed 在 SXSW 大会上发布多款AI应用，包括 BF Island 和 Conjure，试图通过AI内容生成工具开辟新的收入渠道。",
+      "url": "https://techcrunch.com/2026/03/17/buzzfeed-ai-slop-apps-sxsw-bf-island-conjure/",
+      "source": "TechCrunch",
+      "category": "other",
+      "published": "2026-03-17T17:00:00Z"
+    }
+  ]
+}
